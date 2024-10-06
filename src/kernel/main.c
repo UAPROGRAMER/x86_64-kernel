@@ -1,8 +1,10 @@
-#include "print.h"
+#include "stdtypes.h"
+#include "stdrender.h"
+#include "stdstring.h"
 
 void kernel_main()
 {
-  print_set_color(WHITE, BLACK);
-  print_clear();
-  print_str("Hello, x64 World!");
+  uint8 stdcolor = RenderGetColor(WHITE, BLACK);
+  RenderClear();
+  RenderFill('+', stdcolor);
 }
