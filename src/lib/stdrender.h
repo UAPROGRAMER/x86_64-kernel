@@ -51,6 +51,6 @@ void RenderReplaceColor(uint8 color);
 
 void RenderFlip();
 
-long get_video_memory_back_image_pointer();
+RenderChar* get_video_memory_back_image_pointer();
 
 void RenderInit();

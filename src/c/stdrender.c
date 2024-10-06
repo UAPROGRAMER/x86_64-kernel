@@ -1,12 +1,12 @@
 #include "stdrender.h"
 
-
+RenderChar* VIDEO_MEMORY_BACK_IMAGE = null;
 
 void RenderClearRow(uint8 row)
 {
   for (uint8 count = 0; count < COLUMN_SIZE; count++)
   {
-    VIDEO_MEMORY_BUFFER[count + row*COLUMN_SIZE] = RENDER_CHAR_EMPHY;
+    VIDEO_MEMORY_BACK_IMAGE[count + row*COLUMN_SIZE] = RENDER_CHAR_EMPHY;
   }
 }
 
@@ -31,7 +31,7 @@ void RenderPutChar(char character, uint8 column, uint8 row, uint8 color)
   if (column > COLUMN_SIZE || row > ROW_SIZE)
     return;
   
-  VIDEO_MEMORY_BUFFER[column + row*COLUMN_SIZE] = ((RenderChar){character,color});
+  VIDEO_MEMORY_BACK_IMAGE[column + row*COLUMN_SIZE] = ((RenderChar){character,color});
 }
 
 void RenderPutStr(char* string, uint8 column, uint8 row, uint8 color)
@@ -69,7 +69,7 @@ void RenderFillRow(char character, uint8 row, uint8 color)
 
   for (uint8 count = 0; count < COLUMN_SIZE; count++)
   {
-    VIDEO_MEMORY_BUFFER[count + row*COLUMN_SIZE] = ((RenderChar){character,color});
+    VIDEO_MEMORY_BACK_IMAGE[count + row*COLUMN_SIZE] = ((RenderChar){character,color});
   }
 }
 
@@ -88,10 +88,13 @@ void RenderReplaceColor(uint8 color)
 
 void RenderFlip()
 {
-
+  for (uint16 count = 0; count < 25*80; count++)
+  {
+    VIDEO_MEMORY_BUFFER[count] = VIDEO_MEMORY_BACK_IMAGE[count];
+  }
 }
 
 void RenderInit()
 {
-
+  VIDEO_MEMORY_BACK_IMAGE = (RenderChar*)get_video_memory_back_image_pointer();
 }
